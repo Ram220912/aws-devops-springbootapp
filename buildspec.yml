@@ -10,15 +10,23 @@ phases:
       - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 040942670234.dkr.ecr.us-east-1.amazonaws.com
       - # Replace with this to your repository URI
       - REPOSITORY_URI=040942670234.dkr.ecr.us-east-1.amazonaws.com/awsdevopsecr
+      - echo good
       - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
+      - echo good1
   build:
     commands:
       - echo Build started on `date`
+      - echo good 2
       - echo building the Jar file
+      - echo good 3
       - mvn clean install
+      - echo good 4
       - echo Building the Docker image...
+      - echo good 5
       - docker build -t $REPOSITORY_URI:latest .
+      - echo good 6
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+      - echo good 7
   post_build:
     commands:
       - echo Build completed on `date`
